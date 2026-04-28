@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartRedact — Document Redaction Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Smart<strong>Redact</strong></span>
+      </div>
+      <p class="tagline">Automated PII detection &amp; redaction for Indian documents</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="panel panel-input">
+      <h2 class="panel-title">01 — Input</h2>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="paste" role="tab" aria-selected="true">Paste Text</button>
+        <button class="tab" data-tab="upload" role="tab" aria-selected="false">Upload File</button>
+      </div>
+
+      <div id="tab-paste" class="tab-content active">
+        <textarea
+          id="input-text"
+          class="text-area"
+          placeholder="Paste your document here…&#10;&#10;e.g. Dear Rahul Sharma,&#10;Your Aadhaar 4567 3421 9876 and PAN ABCDE1234F have been verified.&#10;Contact us at rahul@example.com or +91 9876543210."
+          rows="14"
+        ></textarea>
+      </div>
+
+      <div id="tab-upload" class="tab-content">
+        <label class="file-drop" id="file-drop-zone">
+          <input type="file" id="file-input"
+            accept=".txt,.pdf,.docx,.pptx,.xlsx,.xls,.csv"
+            hidden />
+          <span class="drop-icon">⬆</span>
+          <span class="drop-primary">Drop your document here</span>
+          <span class="drop-secondary">or click to browse</span>
+          <div class="file-type-badges">
+            <span class="badge">TXT</span>
+            <span class="badge">PDF</span>
+            <span class="badge">DOCX</span>
+            <span class="badge">PPTX</span>
+            <span class="badge">XLSX</span>
+            <span class="badge">CSV</span>
+          </div>
+          <span class="drop-filename" id="drop-filename"></span>
+        </label>
+      </div>
+
+      <div class="entity-toggles">
+        <p class="toggles-label">Redact these entity types:</p>
+        <div class="toggle-grid">
+          <label class="toggle-chip chip-name">
+            <input type="checkbox" name="entity_types" value="NAME" checked />
+            <span class="chip-dot"></span> NAME
+          </label>
+          <label class="toggle-chip chip-email">
+            <input type="checkbox" name="entity_types" value="EMAIL" checked />
+            <span class="chip-dot"></span> EMAIL
+          </label>
+          <label class="toggle-chip chip-phone">
+            <input type="checkbox" name="entity_types" value="PHONE" checked />
+            <span class="chip-dot"></span> PHONE
+          </label>
+          <label class="toggle-chip chip-aadhaar">
+            <input type="checkbox" name="entity_types" value="AADHAAR" checked />
+            <span class="chip-dot"></span> AADHAAR
+          </label>
+          <label class="toggle-chip chip-pan">
+            <input type="checkbox" name="entity_types" value="PAN" checked />
+            <span class="chip-dot"></span> PAN
+          </label>
+        </div>
+      </div>
+
+      <button id="btn-redact" class="btn-primary">
+        <span class="btn-icon">◈</span>
+        Run Redaction
+      </button>
+
+      <div id="error-msg" class="error-box" hidden></div>
+    </section>
+
+    <section class="panel panel-output">
+      <h2 class="panel-title">02 — Output</h2>
+
+      <div id="output-placeholder" class="output-placeholder">
+        <div class="placeholder-icon">◈</div>
+        <p>Your redacted document will appear here.</p>
+      </div>
+
+      <div id="output-results" hidden>
+
+        <div class="summary-section">
+          <p class="summary-title">Redaction Summary</p>
+          <div class="summary-grid" id="summary-grid"></div>
+        </div>
+
+        <div class="view-toggle">
+          <button class="view-btn active" id="btn-view-highlight">Highlighted</button>
+          <button class="view-btn" id="btn-view-plain">Plain Text</button>
+        </div>
+
+        <div id="output-highlighted" class="output-text highlighted-view"></div>
+        <div id="output-plain" class="output-text plain-view" hidden></div>
+
+        <button id="btn-download" class="btn-download">
+          ↓ Download Redacted .txt
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="history-section container-full">
+    <div class="history-header">
+      <h3>Session Log</h3>
+      <button id="btn-load-history" class="btn-ghost">Load History</button>
+    </div>
+    <div id="history-table-wrap" hidden>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Timestamp (UTC)</th>
+            <th>Source</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>PHONE</th>
+            <th>AADHAAR</th>
+            <th>PAN</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>SmartRedact · Built with Flask + spaCy · 3-Day Challenge Project</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
