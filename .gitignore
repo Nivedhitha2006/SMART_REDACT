@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Custom ignores
+venv/
+__pycache__/
+*.db
+redaction_log.db
+screenshots/
