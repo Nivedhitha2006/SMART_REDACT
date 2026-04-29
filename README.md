@@ -30,12 +30,16 @@ Stores redaction history in SQLite database
 🖼️ Screenshots
 
 🏠 Homepage
+![Homepage](./HOMEPAGE.png)
 
 📝 Text Redaction
+![Text](./TEXT_REDACTION.png)
 
 📄 Document Redaction
+![Doc](./DOC_REDACTION.png)
 
-⬇️ Download Redacted File
+⬇️ Download Output
+![Download](./REDACTED_TEXTFILE_DOWNLOAD.png)
 
 🏗️ Project Structure
 
@@ -69,23 +73,6 @@ redactor.py processes sensitive info
 Data is masked securely
 Output is displayed or downloadable
 Activity logged in database
-
-💻 Installation (Local Setup)
-Step 1: Clone Repository
-git clone https://github.com/your-username/redaction-tool.git
-cd redaction-tool
-Step 2: Create Virtual Environment
-python -m venv venv
-Step 3: Activate Environment
-venv\Scripts\activate   # Windows
-source venv/bin/activate  # Mac/Linux
-Step 4: Install Requirements
-pip install -r requirements.txt
-Step 5: Run Application
-python app.py
-Step 6: Open in Browser
-http://127.0.0.1:5000
-
 
 
 📜 License
