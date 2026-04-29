@@ -1,7 +1,7 @@
 services:
   - type: web
-    name: smart-redactor
+    name: smart-redact
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+    buildCommand: "pip install -r requirements.txt && python -m spacy download en_core_web_sm"
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120"
     plan: free
